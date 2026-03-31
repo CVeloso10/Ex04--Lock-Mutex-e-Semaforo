@@ -1,0 +1,5 @@
+build/
+*.o
+*.out
+tic_tac_toe
+solucao
