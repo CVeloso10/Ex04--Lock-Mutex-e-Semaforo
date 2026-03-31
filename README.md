@@ -1,71 +1,95 @@
-Ex04 - Lock, Mutex e Semáforo
+# Ex04 - Lock, Mutex e Semáforo
 
-Atividade da disciplina Automação em Tempo Real (UFMG).
+Atividade da disciplina **Automação em Tempo Real (UFMG)**.
 
-📌 Objetivo
+## 📌 Objetivo
 
 Explorar problemas de concorrência em C++ e aplicar mecanismos de sincronização como:
+- Mutex
+- Variáveis de condição (`condition_variable`)
+- Exclusão mútua e coordenação entre threads
 
-Mutex
-Variáveis de condição (condition_variable)
-Exclusão mútua e coordenação entre threads
+---
 
-🎮 Questão 2 - TicTacToe Concorrente
+## 🎮 Questão 2 - TicTacToe Concorrente
 
 O projeto consiste em um jogo da velha com dois jogadores executando em threads distintas.
 
-⚠️ Problema inicial
+### ⚠️ Problema inicial
 
 Sem sincronização adequada, o sistema apresentava:
+- Condição de corrida (race condition)
+- Impressão incorreta do tabuleiro
+- Jogadas fora de ordem
+- Múltiplos vencedores
 
-Condição de corrida (race condition)
-Impressão incorreta do tabuleiro
-Jogadas fora de ordem
-Múltiplos vencedores
+---
 
-✅ Solução implementada
+## ✅ Solução implementada
 
 A solução utiliza:
 
-🔒 Mutex (std::mutex)
-
+### 🔒 Mutex (`std::mutex`)
 Garante exclusão mútua no acesso ao estado do jogo.
 
-🔁 Variável de condição (std::condition_variable)
-
+### 🔁 Variável de condição (`std::condition_variable`)
 Controla a alternância de turnos entre os jogadores e evita espera ativa (busy waiting).
 
-🧠 Estratégia
+### 🧠 Estratégia
+- A função `make_move` atua como seção crítica.
+- Threads aguardam sua vez com `cv.wait()`.
+- Após cada jogada válida, `cv.notify_all()` acorda a outra thread.
 
-A função make_move atua como seção crítica.
-Threads aguardam sua vez com cv.wait().
-Após cada jogada válida, cv.notify_all() acorda a outra thread.
+---
 
-▶️ Como executar
+## ▶️ Como executar
 
-    mkdir build
-    cd build
-    cmake ..
-    make
-    ./tic_tac_toe
+Compilar os dois programas:
 
-📸 Resultados
+```bash
+make
+```
+
+Executar a versão **sem sincronização** (com erros):
+
+```bash
+make run_sem_sincronizacao
+```
+
+Executar a versão **com sincronização** (solução):
+
+```bash
+make run_solucao
+```
+
+Limpar os executáveis:
+
+```bash
+make clean
+```
+
+---
+
+## 📸 Resultados
 
 Os testes realizados demonstram:
+- ❌ Execução sem sincronização → comportamento incorreto
+- ✅ Execução com sincronização → jogo correto e consistente
 
-❌ Execução sem sincronização → comportamento incorreto
-✅ Execução com sincronização → jogo correto e consistente
+Os prints estão disponíveis na pasta `prints/`.
 
-Os prints estão disponíveis na pasta prints/.
+---
 
-🛠️ Tecnologias
+## 🛠️ Tecnologias
 
-C++
-Threads (<thread>)
-Mutex (<mutex>)
-Condition Variable (<condition_variable>)
+- C++
+- Threads (`<thread>`)
+- Mutex (`<mutex>`)
+- Condition Variable (`<condition_variable>`)
 
-👨‍💻 Autor
+---
 
-Cristhian Veloso
+## 👨‍💻 Autor
+
+Cristhian Veloso  
 UFMG - Engenharia de Controle e Automação
